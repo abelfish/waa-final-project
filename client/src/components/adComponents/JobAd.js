@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function JobAd(props) {
   return (
     <div key={props.id}>
-      <div  className="m-auto overflow-hidden rounded-lg shadow-lg cursor-pointer h-96 w-60 md:w-80">
+      <div  className="m-auto overflow-hidden rounded-lg shadow-lg cursor-pointer w-60 md:w-80">
         <Link to={'/JobAd/' + props.id} className="block w-full h-full">
           <img
             alt="Job Ad"

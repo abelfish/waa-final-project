@@ -10,7 +10,7 @@ function AdsPanel() {
       company: 'Google',
       location: 'New York',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/200',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: ['React', 'JavaScript', 'HTML', 'CSS', 'Tailwind'],
@@ -21,7 +21,7 @@ function AdsPanel() {
       company: 'Facebook',
       location: 'New York',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/300',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: ['React', 'Node', 'Express', 'MongoDB'],
@@ -32,7 +32,7 @@ function AdsPanel() {
       company: 'Amazon',
       location: 'Washington D.C.',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/400',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: ['MongoDB', 'JavaScript', 'HTML', 'CSS', 'Tailwind'],
@@ -43,7 +43,7 @@ function AdsPanel() {
       company: 'Google',
       location: 'San Francisco',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/320',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: ['React', 'JavaScript', 'HTML', 'CSS', 'Tailwind'],
@@ -54,7 +54,7 @@ function AdsPanel() {
       company: 'Facebook',
       location: 'Seattle',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/670',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: ['React', 'Node', 'Express', 'MongoDB'],
@@ -65,7 +65,7 @@ function AdsPanel() {
       company: 'Amazon',
       location: 'Portland',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/980',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: [
@@ -85,7 +85,7 @@ function AdsPanel() {
       company: 'Facebook',
       location: 'Chicago',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/200',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: ['React', 'Node', 'Express', 'MongoDB'],
@@ -96,7 +96,7 @@ function AdsPanel() {
       company: 'Amazon',
       location: 'Seattle',
       salary: '100k',
-      imageUrl: '/images/test.jpg',
+      imageUrl: 'https://picsum.photos/200',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nunc ut aliquam aliquam, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet nisl.',
       tags: [

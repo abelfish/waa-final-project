@@ -2,6 +2,7 @@ import React from 'react';
 import AdsPanel from './adComponents/AdsPanel';
 
 export default function Dashboard() {
+    
   return (
     <>
       <div className="min-h-full">

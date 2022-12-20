@@ -5,15 +5,12 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useDispatch, useSelector } from 'react-redux';
 
 function NavBar() {
-  const user = {
-    name: 'Test',
-    email: 'test@example.com',
-    imageUrl: '/images/userLogo.jpg',
-  };
+  const user = useSelector((state) => state.UserReducer.user);
+  
   const [navigation, setNavigation] = useState([
-    { name: 'Dashboard', to: '/dashboard', current: true },
+    { name: 'Dashboard', to: '/dashboard', current: true, auth: 'student' },
 
-    { name: 'Reports', to: '/reports', current: false },
+    { name: 'Reports', to: '/reports', current: false, auth: 'student' },
   ]);
   const userNavigation = [
     { name: 'Your Profile', to: '/ProfileInfo' },
@@ -24,17 +21,21 @@ function NavBar() {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
+  const setImageUrl = (url) => {
+    return url? url: 'https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg';
+  }
 
   const onNavigationClicked = (e) => {
     setNavigation(() => {
-      navigation.map((item) => {
+      const newNavigation = [];
+      navigation.forEach((item) => {
         if (item.to === e.target.pathname) {
           item.current = true;
         } else item.current = false;
-        return item;
+        newNavigation.push(item);
       });
+      return newNavigation;
     });
-  
   };
 
   return (
@@ -84,7 +85,7 @@ function NavBar() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={user.imageUrl}
+                          src={setImageUrl(user.imageUrl)}
                           alt=""
                         />
                       </Menu.Button>
@@ -160,7 +161,7 @@ function NavBar() {
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full"
-                    src={user.imageUrl}
+                    src={setImageUrl(user.imageUrl)}
                     alt="test"
                   />
                 </div>

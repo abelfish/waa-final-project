@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 import ProfileInfo from './components/profileComponents/ProfileInfo';
 import ProfileInfoEdit from './components/profileComponents/ProfileInfoEdit';
 import Signup from './components/formComponents/Signup';
-import logo from './logo.svg';
+
 
 function App() {
   return (
@@ -18,11 +18,11 @@ function App() {
         <Route path="/" element={<Dashboard />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="*" element={<h1>404 Not Found</h1>}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/JobAd" element={<JobAd />}></Route>
+        <Route path="/JobAd/:id" element={<JobAd />}></Route>
         <Route path="/profileInfo" element={<ProfileInfo />}></Route>
         <Route path="/profileInfoEdit" element={<ProfileInfoEdit />}></Route>
+        <Route path="*" element={<h1>404 Not Found</h1>}></Route>
       </Routes>
     </div>
   );
