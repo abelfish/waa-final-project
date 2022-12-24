@@ -1,8 +1,13 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import AdsPanel from './adComponents/AdsPanel';
+import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
-    
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  useEffect(() => {
+    console.log('Dashboard: isLoggedIn: ', isLoggedIn);
+  });
+
   return (
     <>
       <div className="min-h-full">

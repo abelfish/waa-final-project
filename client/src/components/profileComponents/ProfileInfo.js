@@ -1,72 +1,141 @@
-import { PaperClipIcon } from '@heroicons/react/20/solid'
-import { useSelector } from 'react-redux'
+import { PaperClipIcon } from '@heroicons/react/20/solid';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import StudentElement from '../authorizationElements/StudentElement';
+import { useState, useEffect } from 'react';
 
 export default function ProfileInfo() {
-  const user = useSelector((state) => state.UserReducer.user)
+  const userObj = localStorage.getItem('user');
+  const userInfo = JSON.parse(userObj);
+  const username = userInfo.preferred_username;
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    username: '',
+    imageUrl: '',
+    address: {
+      id: 0,
+      street: '',
+      city: '',
+      state: '',
+      zip: '',
+    },
+  });
+  const getData = async () => {
+    const response = fetch('http://localhost:8080/users/username/' + username, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setUser(data);
+      });
+    return response;
+  };
 
-
-
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
-    <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">Profile Information</h3>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details.</p>
+    <div className="overflow-hidden p-10 bg-white shadow sm:rounded-lg">
+      <div className="py-5 md:flex gap-5">
+        <div className="px-4 py-1 sm:px-6 md:w-60">
+          <h3 className="text-lg font-medium leading-6 text-gray-900">
+            Profile Information
+          </h3>
+          <p className="mt-1 max-w-2xl text-sm text-gray-500">
+            Personal details.
+          </p>
+        </div>
+        <div className="px-4 py-5 columns-1">
+          <div className="flex items-center rounded-md border-red-900">
+            {/* <img
+              className=" h-56 w-56 rounded-full"
+              src={user.imageUrl}
+              alt="test"
+            /> */}
+          </div>
+        </div>
       </div>
       <div className="border-t border-gray-200">
         <dl>
           <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Full name</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{user.firstName + ' ' + user.lastName}</dd>
+            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+              {user.firstName + ' ' + user.lastName}
+            </dd>
           </div>
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Application for</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">Backend Developer</dd>
+            <dt className="text-sm font-medium text-gray-500">Address</dt>
+            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{`${user.address.street}`}</dd>
+          </div>
+          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt className="text-sm font-medium text-gray-500"></dt>
+            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{`${user.address.city}, ${user.address.state} 
+            ${user.address.zip}`}</dd>
           </div>
           <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Email address</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{user.email}</dd>
-          </div>
-          
-          <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">About</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur
-              qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud
-              pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+              {user.email}
             </dd>
           </div>
+          {/* <StudentElement> */}
           <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Attachments</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <ul role="list" className="divide-y divide-gray-200 rounded-md border border-gray-200">
+              <ul className="divide-y divide-gray-200 rounded-md border border-gray-200">
+                {/* {user.attachments.map((attachment) => { */}
+                {/* return ( */}
                 <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
                   <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                    <span className="ml-2 w-0 flex-1 truncate">resume_back_end_developer.pdf</span>
+                    {/* <PaperClipIcon */}
+                    {/* className="h-5 w-5 flex-shrink-0 text-gray-400" */}
+                    {/* aria-hidden="true" */}
+                    {/* /> */}
+                    <span className="ml-2 w-0 flex-1 truncate">
+                      {/* ?  {attachment.name} */}
+                    </span>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a
+                      // href={attachment.url}
+                      className="font-medium text-indigo-600 hover:text-indigo-500"
+                    >
                       Download
                     </a>
                   </div>
                 </li>
-                <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                    <span className="ml-2 w-0 flex-1 truncate">coverletter_back_end_developer.pdf</span>
-                  </div>
-                  <div className="ml-4 flex-shrink-0">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Download
-                    </a>
-                  </div>
-                </li>
+                {/* ); */}
+                {/* ? })} */}
               </ul>
             </dd>
           </div>
+          {/* </StudentElement> */}
         </dl>
       </div>
+      <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt className="text-sm font-medium text-gray-500">
+          Professional Experience
+        </dt>
+        <dd className="mt-1 h-16 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+          {user.experience}
+        </dd>
+      </div>
+      <div className="mt-10 ml-2">
+        <Link to="/profileInfoEdit">
+          <button className="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+            Edit
+          </button>
+        </Link>
+      </div>
     </div>
-  )
+  );
 }

@@ -1,18 +1,101 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import { useEffect, React, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import StudentElement from '../authorizationElements/StudentElement';
+
 export default function ProfileInfoEdit() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [zip, setZip] = useState('');
+  const [state, setState] = useState('');
+  const navigate = useNavigate();
+  if (
+    localStorage.getItem('isLoggedIn') === 'false' ||
+    localStorage.getItem('isLoggedIn') === null
+  ) {
+    navigate('/login');
+  }
+
+  const getData = async () => {
+    const response = await fetch(
+      'http://localhost:8080/users/' + localStorage.getItem('userId'),
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setCity(data.address.city);
+        setState(data.address.state);
+        setStreet(data.address.street);
+        setZip(data.address.zip);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setEmail(data.email);
+        setUsername(data.username);
+      })
+      .catch((err) => {
+        alert(err);
+        // navigate('/login');
+      });
+    return response;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      id: localStorage.getItem('userId'),
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      username: username,
+      address: {
+        street: street,
+        city: city,
+        state: state,
+        zip: zip,
+      },
+    };
+
+
+    const response = await fetch(
+      'http://localhost:8080/users/update/' + localStorage.getItem('userId'),
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        alert('Profile updated successfully!');
+        navigate('/profileInfo');
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate('/login');
+      });
+    return response;
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="px-10 py-10">
       <div className="hidden sm:block" aria-hidden="true">
@@ -34,66 +117,11 @@ export default function ProfileInfoEdit() {
             </div>
           </div>
           <div className="mt-5 md:col-span-2 md:mt-0">
-            <form action="#" method="POST">
+            <form action="#" method="POST" onSubmit={handleSubmit}>
               <div className="overflow-hidden shadow sm:rounded-md">
                 <div className="bg-white px-4 py-5 sm:p-6">
                   <div className="grid grid-cols-6 gap-6">
-                    <div className="col-span-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Photo
-                        </label>
-                      </div>
-                      <div className="mt-1 flex items-center ">
-                        <span className="mx-9 inline-block h-20 w-20 overflow-hidden rounded-full bg-gray-100">
-                          <svg
-                            className="h-full w-full text-gray-300"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                          </svg>
-                        </span>
-                        <div className="">
-                          <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                            <div className="space-y-1 text-center">
-                              <svg
-                                className="mx-auto h-12 w-12 text-gray-400"
-                                stroke="currentColor"
-                                fill="none"
-                                viewBox="0 0 48 48"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                  strokeWidth={2}
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                              <div className="flex text-sm text-gray-600">
-                                <label
-                                  htmlFor="file-upload"
-                                  className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                                >
-                                  <span>Upload a file</span>
-                                  <input
-                                    id="file-upload"
-                                    name="file-upload"
-                                    type="file"
-                                    className="sr-only"
-                                  />
-                                </label>
-                                <p className="pl-1">or drag and drop</p>
-                              </div>
-                              <p className="text-xs text-gray-500">
-                                PNG, JPG, GIF up to 10MB
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <div className="col-span-6"></div>
 
                     <div className="col-span-6 sm:col-span-3">
                       <label
@@ -104,9 +132,12 @@ export default function ProfileInfoEdit() {
                       </label>
                       <input
                         type="text"
-                        name="first-name"
-                        id="first-name"
+                        name="firstName"
+                        id="firstName"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         autoComplete="given-name"
+                        required
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -120,8 +151,11 @@ export default function ProfileInfoEdit() {
                       </label>
                       <input
                         type="text"
-                        name="last-name"
-                        id="last-name"
+                        name="lastName"
+                        id="lastName"
+                        required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         autoComplete="family-name"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
@@ -132,35 +166,71 @@ export default function ProfileInfoEdit() {
                         htmlFor="email-address"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Email address
+                        Username
                       </label>
                       <input
                         type="text"
-                        name="email-address"
-                        id="email-address"
-                        autoComplete="email"
+                        name="username"
+                        id="username"
+                        required
+                        autoComplete="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
-
-                    <div className="col-span-6 sm:col-span-3">
+                    <div className="col-span-6 sm:col-span-4">
                       <label
-                        htmlFor="country"
+                        htmlFor="email-address"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Country
+                        Email
                       </label>
-                      <select
-                        id="country"
-                        name="country"
-                        autoComplete="country-name"
-                        className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                      >
-                        <option>United States</option>
-                        <option>Canada</option>
-                        <option>Mexico</option>
-                      </select>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        required
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
                     </div>
+                    {/* <div className="col-span-6 sm:col-span-4">
+                      <label
+                        htmlFor="email-address"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Password
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    <div className="col-span-6 sm:col-span-4">
+                      <label
+                        htmlFor="email-address"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Password
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div> */}
 
                     <div className="col-span-6">
                       <label
@@ -171,9 +241,12 @@ export default function ProfileInfoEdit() {
                       </label>
                       <input
                         type="text"
-                        name="street-address"
-                        id="street-address"
+                        required
+                        name="street"
+                        id="street"
                         autoComplete="street-address"
+                        value={street}
+                        onChange={(e) => setStreet(e.target.value)}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -189,7 +262,10 @@ export default function ProfileInfoEdit() {
                         type="text"
                         name="city"
                         id="city"
+                        required
                         autoComplete="address-level2"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -203,9 +279,12 @@ export default function ProfileInfoEdit() {
                       </label>
                       <input
                         type="text"
-                        name="region"
-                        id="region"
+                        name="state"
+                        id="state"
+                        required
                         autoComplete="address-level1"
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -221,53 +300,57 @@ export default function ProfileInfoEdit() {
                         type="text"
                         name="postal-code"
                         id="postal-code"
+                        value={zip}
+                        required
+                        onChange={(e) => setZip(e.target.value)}
                         autoComplete="postal-code"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
                   </div>
-
-                  <div className="mt-6">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Resume
-                    </label>
-                    <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                      <div className="space-y-1 text-center">
-                        <svg
-                          className="mx-auto h-12 w-12 text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <div className="flex text-sm text-gray-600">
-                          <label
-                            htmlFor="file-upload"
-                            className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                  <StudentElement>
+                    <div className="mt-6">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Resume
+                      </label>
+                      <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                        <div className="space-y-1 text-center">
+                          <svg
+                            className="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
                           >
-                            <span>Upload a file</span>
-                            <input
-                              id="file-upload"
-                              name="file-upload"
-                              type="file"
-                              className="sr-only"
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
-                          </label>
-                          <p className="pl-1">or drag and drop</p>
+                          </svg>
+                          <div className="flex text-sm text-gray-600">
+                            <label
+                              htmlFor="file-upload"
+                              className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload a file</span>
+                              <input
+                                id="file-upload"
+                                name="file-upload"
+                                type="file"
+                                className="sr-only"
+                              />
+                            </label>
+                            <p className="pl-1">or drag and drop</p>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
                         </div>
-                        <p className="text-xs text-gray-500">
-                          PNG, JPG, GIF up to 10MB
-                        </p>
                       </div>
                     </div>
-                  </div>
+                  </StudentElement>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                   <button

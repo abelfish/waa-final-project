@@ -3,66 +3,66 @@ import Axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const login = createAsyncThunk('user/login', async (user) => {
-  const response = await Axios.post('http://localhost:8080/login', user);
+  const response = await Axios.post(
+    'http://localhost:8090/realms/project-realm/protocol/openid-connect/token',
+    user,
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic c3ByaW5nYm9vdC1hcGk6N2ZjWFZaUzcxSE84Wk1qbTZJazM0b2lxUjczQnBBb2M=`,
+      },
+    }
+  ).then((response) => {
+    localStorage.setItem('token', response.data.access_token);
+    localStorage.setItem('refresh_token', response.data.refresh_token);
+    localStorage.setItem('expires_in', response.data.expires_in);
+    localStorage.setItem('isLoggedIn', true);
+  });
   return response.data;
 });
+
 const signup = createAsyncThunk('user/signup', async (user) => {
   const response = await Axios.post('http://localhost:8080/signup', user);
   return response.data;
 });
 
-const userReducer = createSlice({
+const UserReducer = createSlice({
   name: 'user',
   initialState: {
-    user: {
-      id: 1,
-      username: 'testUser',
-      email: 'test@email.com',
-      role: 'STUDENT',
-      firstName: 'First',
-      lastName: 'Last',
-      phone: '12345679',
-      address: {
-        street: 'Teststreet',
-        city: 'Testcity',
-        zip: '12345',
-      },
-      imageUrl: 'https://picsum.photos/200',
-    },
-    isLoggedIn: false,
-    status: 'idle',
+    user: {},
   },
+  status: 'idle',
+
   reducers: {
-    setLoggedInStatus: (state, action) => {
-      state.isLoggedIn = action.payload;
+    setUser(state, action) {
+      state.user = action.payload;
     },
   },
 
-  extraReducers: {
-    [login.fulfilled]: (state, action) => {
-      state.user = action.payload;
-      state.isLoggedIn = true;
-      state.status = 'succeeded';
-    },
-    [login.rejected]: (state, action) => {
-      state.isLoggedIn = false;
-      state.status = 'failed';
-    },
-    [login.pending]: (state, action) => {
-      state.status = 'loading';
-    },
-    [signup.fulfilled]: (state, action) => {
-      state.status = 'succeeded';
-    },
-    [signup.rejected]: (state, action) => {
-      state.status = 'failed';
-    },
-    [signup.pending]: (state, action) => {
-      state.status = 'loading';
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.status = 'succeeded';
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.status = 'failed';
+      })
+      .addCase(login.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.status = 'failed';
+      })
+      .addCase(signup.pending, (state, action) => {
+        state.status = 'loading';
+      });
   },
 });
 export { login, signup };
+export const { setUser } = UserReducer.actions;
 
-export const { setLoggedInStatus } = userReducer.actions;
-export default userReducer.reducer;
+export default UserReducer.reducer;

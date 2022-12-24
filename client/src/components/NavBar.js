@@ -1,29 +1,60 @@
-import { Fragment, useState, React } from 'react';
-import { Link } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Fragment, React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { SignInButton } from './formComponents/SignInButton';
 
 function NavBar() {
   const user = useSelector((state) => state.UserReducer.user);
-  
-  const [navigation, setNavigation] = useState([
-    { name: 'Dashboard', to: '/dashboard', current: true, auth: 'student' },
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const onLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
 
-    { name: 'Reports', to: '/reports', current: false, auth: 'student' },
+    navigate('/login');
+  };
+
+  const [navigation, setNavigation] = useState([
+    {
+      name: 'Dashboard',
+      to: '/dashboard',
+      current: true,
+    },
+    {
+      name: 'Reports',
+      to: '/reports',
+      current: false,
+    },
+    {
+      name: 'Students',
+      to: '/faculty/students',
+      current: false,
+    },
   ]);
+
   const userNavigation = [
-    { name: 'Your Profile', to: '/ProfileInfo' },
-    { name: 'Settings', to: '#' },
-    { name: 'Sign out', to: '/login' },
+    { name: 'My Profile', to: '/ProfileInfo', loginRequired: true },
+    {
+      name: 'My Job Advertisements',
+      to: '/my-job-ads/' + localStorage.getItem('userId'),
+      loginRequired: true,
+    },
+    { name: 'Sign out', to: '/login', loginRequired: true, onClick: onLogout },
   ];
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
   const setImageUrl = (url) => {
-    return url? url: 'https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg';
-  }
+    return url
+      ? url
+      : 'https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg';
+  };
 
   const onNavigationClicked = (e) => {
     setNavigation(() => {
@@ -41,7 +72,7 @@ function NavBar() {
   return (
     <Disclosure
       as="nav"
-      className="sticky top-0 z-50 shadow-lg bg-gray-800 opacity-90"
+      className="sticky top-0 z-50 shadow-lg bg-blue-800 opacity-100"
     >
       {({ open }) => (
         <>
@@ -55,75 +86,83 @@ function NavBar() {
                     alt="Your Company"
                   />
                 </div>
+                <div className="ml-4 text-2xl text-white">
+                  Alumni Management Portal
+                </div>
+
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        onClick={onNavigationClicked}
-                        to={item.to}
-                        className={classNames(
-                          item.current
-                            ? ' bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    {navigation.map((item) => {
+                      return (
+                        <Link
+                          key={item.name}
+                          onClick={onNavigationClicked}
+                          to={item.to}
+                          className={classNames(
+                            item.current
+                              ? ' bg-white text-gray-900 '
+                              : 'text-gray-300 hover:bg-gray-300 hover:text-black',
+                            'px-3 py-2 rounded-md text-sm font-medium'
+                          )}
+                          aria-current={item.current ? 'page' : undefined}
+                        >
+                          {item.name}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
-              <div className="hidden md:block">
-                <div className="ml-4 flex items-center md:ml-6">
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="relative ml-3">
-                    <div>
-                      <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src={setImageUrl(user.imageUrl)}
-                          alt=""
-                        />
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {userNavigation.map((item) => (
-                          <Menu.Item key={item.name}>
-                            {({ active }) => (
-                              <Link
-                                onClick={onNavigationClicked}
-                                to={item.to}
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'block px-4 py-2 text-sm text-gray-700'
-                                )}
-                              >
-                                {item.name}
-                              </Link>
-                            )}
-                          </Menu.Item>
-                        ))}
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
+              <SignInButton>
+                <div className="hidden md:block">
+                  <div className="ml-4 flex items-center md:ml-6">
+                    {/* Profile dropdown */}
+                    <Menu as="div" className="relative ml-3">
+                      <div>
+                        <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <span className="sr-only">Open user menu</span>
+                          <img
+                            className="h-8 w-8 rounded-full"
+                            src={setImageUrl(user.imageUrl)}
+                            alt=""
+                          />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          {userNavigation.map((item) => (
+                            <Menu.Item key={item.name}>
+                              {({ active }) => (
+                                <Link
+                                  onClick={item.onClick}
+                                  to={item.to}
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'block px-4 py-2 text-sm text-gray-700'
+                                  )}
+                                >
+                                  {item.name}
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          ))}
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </div>
                 </div>
-              </div>
+              </SignInButton>
               <div className="-mr-2 flex md:hidden">
                 {/* Mobile menu button */}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-blue-900 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <span className="sr-only">Open main menu</span>
 
                   {open ? (
