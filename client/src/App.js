@@ -15,6 +15,8 @@ import StudentsTable from './components/studentComponents/StudentsTable';
 import { Logout } from './components/formComponents/Logout';
 import StudentPage from './components/studentComponents/StudentPage';
 import Chart from './components/charts/Chart';
+import AddJobAd from './components/profileComponents/AddJobAd';
+import Unauthorized from './components/403';
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
         <Route path="/job-ad-details/:id" element={<JobDescription2 />}></Route>
         <Route path="/profileInfo" element={<ProfileInfo />}></Route>
         <Route path="/profileInfoEdit" element={<ProfileInfoEdit />}></Route>
+        <Route path="/addJobAd" element={<AddJobAd />}></Route>
+        <Route path="/403" element={<Unauthorized />}></Route>
         <Route
           path="/faculty/students"
           element={

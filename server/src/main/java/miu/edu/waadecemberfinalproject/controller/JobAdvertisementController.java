@@ -42,9 +42,9 @@ public class JobAdvertisementController {
     }
 
 
-    @PostMapping("/add")
-    public JobAdvertisementDto addJob(@RequestBody JobAdvertisementDto jobAdvertisement) {
-        return jobAdvertisementService.save(jobAdvertisement);
+    @PostMapping("/add/{id}")
+    public JobAdvertisementDto addJob(@PathVariable Integer id, @RequestBody JobAdvertisementDto jobAdvertisement) {
+        return jobAdvertisementService.save(id,jobAdvertisement);
     }
 
     @PutMapping("/update/{id}")
@@ -56,6 +56,7 @@ public class JobAdvertisementController {
     public void apply(@PathVariable Integer id) {
         jobAdvertisementService.apply(id);
     }
+
     @RolesAllowed({"student"})
     @GetMapping("/student/{id}")
     public JobAdvertisementDto findByStudentId(@PathVariable Integer id) {

@@ -5,6 +5,7 @@ import miu.edu.waadecemberfinalproject.dto.JobAdvertisementDto;
 import miu.edu.waadecemberfinalproject.entity.JobAdvertisement;
 import miu.edu.waadecemberfinalproject.entity.Student;
 import miu.edu.waadecemberfinalproject.repository.JobAdvertisementRepo;
+import miu.edu.waadecemberfinalproject.repository.StudentRepository;
 import miu.edu.waadecemberfinalproject.serivce.JobAdvertisementService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
 
 
     private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
 
     @Override
     public List<JobAdvertisementDto> findByCompanyName(String company) {
@@ -48,11 +50,13 @@ public class JobAdvertisementServiceImpl implements JobAdvertisementService {
 
 
     @Override
-    public JobAdvertisementDto save(JobAdvertisementDto jobAdvertisementdto) {
-        var advertise = modelMapper.map(jobAdvertisementdto, JobAdvertisement.class);
-        jobAdvertisementRepo.save(advertise);
-        return jobAdvertisementdto;
-
+    public JobAdvertisementDto save(Integer id, JobAdvertisementDto jobAdvertisementdto) {
+        var student = studentRepository.findById(id).get();
+        var jobAdvertisement = modelMapper.map(jobAdvertisementdto, JobAdvertisement.class);
+        jobAdvertisement.setStudent(student);
+        studentRepository.save(student);
+        jobAdvertisementRepo.save(jobAdvertisement);
+        return modelMapper.map(jobAdvertisement, JobAdvertisementDto.class);
     }
 
     @Override

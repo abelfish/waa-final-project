@@ -13,7 +13,7 @@ public interface JobAdvertisementService {
 
     public List<JobAdvertisementDto> findByCompanyName(String company);
     public List<JobAdvertisementDto> findByAddress(String state);
-    public JobAdvertisementDto save(JobAdvertisementDto jobAdvertisementdto);
+    public JobAdvertisementDto save(Integer id,JobAdvertisementDto jobAdvertisementdto);
 
 
     JobAdvertisementDto update(Integer id, JobAdvertisementDto jobAdvertisementdto);
