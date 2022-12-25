@@ -66,7 +66,7 @@ function Chart() {
           text-center"
         >
           {' '}
-          Category By City
+          Categories By City
         </div>
       </div>
     </div>

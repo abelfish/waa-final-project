@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String firstName;
