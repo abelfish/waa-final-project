@@ -26,8 +26,8 @@ function NavBar() {
       current: true,
     },
     {
-      name: 'Reports',
-      to: '/reports',
+      name: 'Charts',
+      to: '/charts',
       current: false,
     },
     {
@@ -113,8 +113,14 @@ function NavBar() {
                   </div>
                 </div>
               </div>
-              <SignInButton>
-                <div className="hidden md:block">
+
+              <div className="hidden  md:flex">
+                <div className="ml-4 flex items-center md:mr-4">
+                  <Link to="/signup" className="text-white ">
+                    Sign Up
+                  </Link>
+                </div>
+                <SignInButton>
                   <div className="ml-4 flex items-center md:ml-6">
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
@@ -158,8 +164,9 @@ function NavBar() {
                       </Transition>
                     </Menu>
                   </div>
-                </div>
-              </SignInButton>
+                </SignInButton>
+              </div>
+
               <div className="-mr-2 flex md:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-blue-900 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">

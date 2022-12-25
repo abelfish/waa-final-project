@@ -3,27 +3,75 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
+  const [role, setRole] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [firstname, setFirstname] = React.useState('');
   const [lastname, setLastname] = React.useState('');
-  const [role, setRole] = React.useState('');
-  const [id, setId] = React.useState('');
-  const [message, setMessage] = React.useState('');
+  const [street, setStreet] = React.useState('');
+  const [city, setCity] = React.useState('');
+  const [zip, setZip] = React.useState('');
+  const [state, setState] = React.useState('');
+  const [username, setUsername] = React.useState('');
+  const [major, setMajor] = React.useState('');
 
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
-      email,
-
-      password,
-      firstname,
-      lastname,
-      role,
-      id,
+      email: email,
+      password: password,
+      firstName: firstname,
+      lastName: lastname,
+      address: {
+        street: street,
+        city: city,
+        zip: zip,
+        state: state,
+      },
+      username: username,
+      major: major,
     };
     console.log(data);
+
+    const saveStudent = async () => {
+      const response = await fetch('http://localhost:8080/students/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    };
+    const saveFaculty = async () => {
+      const response = await fetch('http://localhost:8080/faculties/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    };
+    if (role === 'student') {
+      saveStudent();
+    } else {
+      saveFaculty();
+    }
 
     setTimeout(() => {
       navigate('/Login');
@@ -60,7 +108,7 @@ export default function Signup() {
                   onChange={(e) => setRole(e.target.value)}
                   className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 >
-                  <option value="faculy">Faculty</option>
+                  <option value="faculty">Faculty</option>
                   <option value="student">Student</option>
                 </select>
               </div>
@@ -70,9 +118,9 @@ export default function Signup() {
                 <input
                   required
                   type="text"
-                  id="create-account-first-name"
+                  id="firstName"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  name="First name"
+                  name="firstName"
                   placeholder="First name"
                   value={firstname}
                   onChange={(e) => setFirstname(e.target.value)}
@@ -82,12 +130,64 @@ export default function Signup() {
                 <input
                   required
                   type="text"
-                  id="create-account-last-name"
+                  id="lastName"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  name="Last name"
+                  name="lastName"
                   placeholder="Last name"
                   value={lastname}
                   onChange={(e) => setLastname(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex gap-4 mb-2">
+              <div className=" relative ">
+                <input
+                  required
+                  type="text"
+                  id="street"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  name="street"
+                  placeholder="Street"
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                />
+              </div>
+              <div className=" relative ">
+                <input
+                  required
+                  type="text"
+                  id="city"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  name="city"
+                  placeholder="City"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex gap-4 mb-2">
+              <div className=" relative ">
+                <input
+                  required
+                  type="text"
+                  id="state"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  name="state"
+                  placeholder="state"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                />
+              </div>
+              <div className=" relative ">
+                <input
+                  required
+                  type="text"
+                  id="zip"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  name="zip"
+                  placeholder="Zipcode"
+                  value={zip}
+                  onChange={(e) => setZip(e.target.value)}
                 />
               </div>
             </div>
@@ -95,12 +195,12 @@ export default function Signup() {
               <input
                 required
                 type="text"
-                id="create-account-id"
+                id="username"
                 className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                name="id"
-                placeholder="Id"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
+                name="username"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
@@ -109,9 +209,10 @@ export default function Signup() {
                 <input
                   required
                   type="text"
-                  id="create-account-email"
+                  id="email"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Email"
+                  name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -122,7 +223,8 @@ export default function Signup() {
                 <input
                   required
                   type="password"
-                  id="create-account-password"
+                  name="password"
+                  id="password"
                   className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Password"
                   value={password}
@@ -130,13 +232,26 @@ export default function Signup() {
                 />
               </div>
             </div>
+            <div className="flex flex-col mb-2">
+              <div className=" relative ">
+                <input
+                  required
+                  type="major"
+                  name="major"
+                  id="major"
+                  className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  placeholder="Major"
+                  value={major}
+                  onChange={(e) => setMajor(e.target.value)}
+                />
+              </div>
+            </div>
             <div className="flex w-full my-4">
-              <button
+              <input
                 type="submit"
+                value="Sign Up"
                 className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-              >
-                Sign Up
-              </button>
+              ></input>
             </div>
           </form>
         </div>

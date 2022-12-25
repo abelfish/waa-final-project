@@ -38,7 +38,7 @@ public class StudentController {
 
     }
 
-    @PostMapping("/add")
+    @PostMapping("/signup")
     public StudentDto save(@RequestBody StudentDto student) {
         return studentService.save(student);
     }

@@ -54,6 +54,7 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public FacultyDto save(FacultyDto faculty) {
         var fac = modelMapper.map(faculty, Faculty.class);
+        fac.setActive(true);
         fac = facultyRepo.save(fac);
         return modelMapper.map(fac, FacultyDto.class);
     }

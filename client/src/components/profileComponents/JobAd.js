@@ -9,7 +9,7 @@ function JobAd(props) {
   return (
     <div key={props.id}>
       <div key={props.id}  className="m-auto overflow-hidden rounded-lg shadow-lg cursor-pointer w-60 md:w-80">
-        <Link to={'/edit-job-ad/' + props.id} className="block w-full h-full">
+        <Link to={'/job-ad-details/' + props.id} className="block w-full h-full">
           <img
             alt="Job Ad"
             src={imageUrl(props.imageUrl)}

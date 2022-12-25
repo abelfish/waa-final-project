@@ -28,7 +28,7 @@ public class FacultyController {
         return facultyService.findById(id);
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public FacultyDto save(@RequestBody FacultyDto faculty) {
         return facultyService.save(faculty);
     }

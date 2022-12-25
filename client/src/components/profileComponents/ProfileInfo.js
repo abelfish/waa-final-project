@@ -1,10 +1,11 @@
 import { PaperClipIcon } from '@heroicons/react/20/solid';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import StudentElement from '../authorizationElements/StudentElement';
-import { useState, useEffect } from 'react';
 
 export default function ProfileInfo() {
+  const navigate = useNavigate();
   const userObj = localStorage.getItem('user');
   const userInfo = JSON.parse(userObj);
   const username = userInfo.preferred_username;
@@ -35,6 +36,10 @@ export default function ProfileInfo() {
       })
       .then((data) => {
         setUser(data);
+      })
+      .catch((error) => {
+        navigate('/login');
+        alert('You must be logged in to view this page');
       });
     return response;
   };
@@ -55,13 +60,7 @@ export default function ProfileInfo() {
           </p>
         </div>
         <div className="px-4 py-5 columns-1">
-          <div className="flex items-center rounded-md border-red-900">
-            {/* <img
-              className=" h-56 w-56 rounded-full"
-              src={user.imageUrl}
-              alt="test"
-            /> */}
-          </div>
+          <div className="flex items-center rounded-md border-red-900"></div>
         </div>
       </div>
       <div className="border-t border-gray-200">
@@ -87,48 +86,41 @@ export default function ProfileInfo() {
               {user.email}
             </dd>
           </div>
-          {/* <StudentElement> */}
-          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-500">Attachments</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <ul className="divide-y divide-gray-200 rounded-md border border-gray-200">
-                {/* {user.attachments.map((attachment) => { */}
-                {/* return ( */}
-                <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
-                  <div className="flex w-0 flex-1 items-center">
-                    {/* <PaperClipIcon */}
-                    {/* className="h-5 w-5 flex-shrink-0 text-gray-400" */}
-                    {/* aria-hidden="true" */}
-                    {/* /> */}
-                    <span className="ml-2 w-0 flex-1 truncate">
-                      {/* ?  {attachment.name} */}
-                    </span>
-                  </div>
-                  <div className="ml-4 flex-shrink-0">
-                    <a
-                      // href={attachment.url}
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </li>
-                {/* ); */}
-                {/* ? })} */}
-              </ul>
-            </dd>
-          </div>
-          {/* </StudentElement> */}
+          <StudentElement>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">Attachments</dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <ul className="divide-y divide-gray-200 rounded-md border border-gray-200">
+                  {/* {user.attachments.map((attachment) => { */}
+                  {/* return ( */}
+                  <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
+                    <div className="flex w-0 flex-1 items-center">
+                      {/* <PaperClipIcon */}
+                      {/* className="h-5 w-5 flex-shrink-0 text-gray-400" */}
+                      {/* aria-hidden="true" */}
+                      {/* /> */}
+                      <span className="ml-2 w-0 flex-1 truncate">
+                        {/* ?  {attachment.name} */}
+                      </span>
+                    </div>
+                    <div className="ml-4 flex-shrink-0">
+                      <a
+                        // href={attachment.url}
+                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                      >
+                        Download
+                      </a>
+                    </div>
+                  </li>
+                  {/* ); */}
+                  {/* ? })} */}
+                </ul>
+              </dd>
+            </div>
+          </StudentElement>
         </dl>
       </div>
-      <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt className="text-sm font-medium text-gray-500">
-          Professional Experience
-        </dt>
-        <dd className="mt-1 h-16 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-          {user.experience}
-        </dd>
-      </div>
+
       <div className="mt-10 ml-2">
         <Link to="/profileInfoEdit">
           <button className="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">

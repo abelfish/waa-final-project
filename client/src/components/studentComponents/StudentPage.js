@@ -27,6 +27,13 @@ export default function StudentPage() {
 
   const onAddCommentClicked = (e) => {
     e.preventDefault();
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem('token');
+    if (!user || !token) return navigate('/login');
+    if (!user.roles.includes('FACULTY')) {
+      alert('Only Faculties can add comments!');
+      return;
+    }
 
     const facultyId = localStorage.getItem('userId');
 
@@ -140,16 +147,20 @@ export default function StudentPage() {
               <table className="table-auto">
                 <thead>
                   <tr>
-                    <th className='px-4'>Comment</th>
-                    <th className='px-4'>By</th>
+                    <th className="px-4">Comment</th>
+                    <th className="px-4">By</th>
                   </tr>
                 </thead>
                 <tbody>
                   {student.feedbacks.map((feedback) => {
                     return (
-                      <tr className=' rounded border-2'>
-                        <td className='px-4'>{feedback.comment}</td>
-                        <td className='px-4'>{feedback.faculty.firstName + " " + feedback.faculty.lastName}</td>
+                      <tr className=" rounded border-2">
+                        <td className="px-4">{feedback.comment}</td>
+                        <td className="px-4">
+                          {feedback.faculty.firstName +
+                            ' ' +
+                            feedback.faculty.lastName}
+                        </td>
                       </tr>
                     );
                   })}

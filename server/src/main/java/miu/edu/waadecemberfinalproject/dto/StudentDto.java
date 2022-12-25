@@ -10,6 +10,8 @@ import java.util.List;
 public class StudentDto extends UserDto {
     private Double gpa;
 
+    private String major;
+
     private List<FeedbackDto> feedbacks;
     private List<JobAdvertisementDto> jobAdvertisements;
 

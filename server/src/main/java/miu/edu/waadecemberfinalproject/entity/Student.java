@@ -23,7 +23,7 @@ public class Student extends User {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Feedback> feedbacks;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<JobAdvertisement> jobAdvertisements;
 }
 

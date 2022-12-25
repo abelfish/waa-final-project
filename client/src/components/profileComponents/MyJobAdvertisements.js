@@ -8,6 +8,13 @@ function AdsPanel() {
   const [jobAds, setJobAds] = useState([]);
   const userId = localStorage.getItem('userId');
   const ads = [];
+  function AddElement(props) {
+    if (localStorage.getItem('user').includes('STUDENT')) {
+      return props.children;
+    } else {
+      return null;
+    }
+  }
   const getJobs = async () => {
     const response = await fetch('http://localhost:8080/jobAdverts/', {
       method: 'GET',
@@ -84,6 +91,7 @@ function AdsPanel() {
           </div>
           <div className="md:inline ">
             <div className="grid grid-cols-1 gap-12 md:grid-cols-1 xl:grid-cols-1">
+              <AddElement>
               <Link
                 to="/addJobAd"
                 className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-blue-800 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
@@ -91,6 +99,7 @@ function AdsPanel() {
               >
                 Add Job Advertisement
               </Link>
+              </AddElement>
             </div>
           </div>
         </div>

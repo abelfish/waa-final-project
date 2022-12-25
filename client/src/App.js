@@ -14,6 +14,7 @@ import MyJobAdvertisements from './components/profileComponents/MyJobAdvertiseme
 import StudentsTable from './components/studentComponents/StudentsTable';
 import { Logout } from './components/formComponents/Logout';
 import StudentPage from './components/studentComponents/StudentPage';
+import Chart from './components/charts/Chart';
 
 function App() {
   return (
@@ -42,7 +43,7 @@ function App() {
         ></Route>
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/my-job-ads/:id" element={<MyJobAdvertisements />}></Route>
-        <Route path="/edit-job-ad/:id" element={<JobDescription2 />}></Route>
+        <Route path="/job-ad-details/:id" element={<JobDescription2 />}></Route>
         <Route path="/profileInfo" element={<ProfileInfo />}></Route>
         <Route path="/profileInfoEdit" element={<ProfileInfoEdit />}></Route>
         <Route
@@ -55,6 +56,7 @@ function App() {
         ></Route>
         <Route path="/student-info/:id" element={<StudentPage />}></Route>
         <Route path="*" element={<PageNotFound />}></Route>
+        <Route path="/charts" element={<Chart />}></Route>
       </Routes>
     </div>
   );

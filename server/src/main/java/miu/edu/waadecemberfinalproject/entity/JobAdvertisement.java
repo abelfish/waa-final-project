@@ -30,7 +30,7 @@ public class JobAdvertisement {
 
     private String tags;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Student student;
 
 
@@ -38,5 +38,7 @@ public class JobAdvertisement {
 
 
     private LocalDateTime lastApplyDate;
+
+
 
 }
