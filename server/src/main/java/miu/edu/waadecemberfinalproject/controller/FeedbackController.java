@@ -3,7 +3,7 @@ package miu.edu.waadecemberfinalproject.controller;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.waadecemberfinalproject.dto.FeedbackDto;
-import miu.edu.waadecemberfinalproject.serivce.FeedbackService;
+import miu.edu.waadecemberfinalproject.service.FeedbackService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,8 @@
 import { useEffect, React, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import StudentElement from '../authorizationElements/StudentElement';
+import UploadFiles from '../uploadComponents/UploadFiles';
+
 
 export default function ProfileInfoEdit() {
   const [firstName, setFirstName] = useState('');
@@ -12,6 +14,7 @@ export default function ProfileInfoEdit() {
   const [zip, setZip] = useState('');
   const [state, setState] = useState('');
   const navigate = useNavigate();
+  const [file, setFile] = useState('');
   if (
     localStorage.getItem('isLoggedIn') === 'false' ||
     localStorage.getItem('isLoggedIn') === null
@@ -31,6 +34,7 @@ export default function ProfileInfoEdit() {
       }
     )
       .then((response) => {
+        console.log(response);
         return response.json();
       })
       .then((data) => {
@@ -44,10 +48,35 @@ export default function ProfileInfoEdit() {
         setUsername(data.username);
       })
       .catch((err) => {
-        alert(err);
+        console.log(err);
         navigate('/login');
       });
-    return response;
+  };
+
+  const uploadFile = (e) => {
+    e.preventDefault();
+    const url =
+      'http://localhost:8080/file/upload?file=' +
+      file.name;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', file.name);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*',
+        Authentication: `Bearer ${localStorage.getItem('token')}`,
+      },
+    };
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'content-type': 'multipart/form-data',
+        Authentication: `Bearer ${localStorage.getItem('token')}`,
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: formData,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -63,6 +92,7 @@ export default function ProfileInfoEdit() {
         city: city,
         state: state,
         zip: zip,
+        resumePath: file,
       },
     };
 
@@ -279,7 +309,10 @@ export default function ProfileInfoEdit() {
                       <label className="block text-sm font-medium text-gray-700">
                         Resume
                       </label>
-                      <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                      <UploadFiles />
+                        </div>
+                      {/* <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                         <div className="space-y-1 text-center">
                           <svg
                             className="mx-auto h-12 w-12 text-gray-400"
@@ -293,6 +326,7 @@ export default function ProfileInfoEdit() {
                               strokeWidth={2}
                               strokeLinecap="round"
                               strokeLinejoin="round"
+                              values=""
                             />
                           </svg>
                           <div className="flex text-sm text-gray-600">
@@ -306,22 +340,33 @@ export default function ProfileInfoEdit() {
                                 name="file-upload"
                                 type="file"
                                 className="sr-only"
+                                value={file}
+                                onChange={(e) => setFile(e.target.value)}
                               />
                             </label>
-                            <p className="pl-1">or drag and drop</p>
+                            <p className="pl-1"></p>
                           </div>
                           <p className="text-xs text-gray-500">
                             PNG, JPG, GIF up to 10MB
                           </p>
                         </div>
-                      </div>
+                        <div className="mx-10 flex flex-col">
+                          <label>Selected File:{file.split('\\')[2]}</label>
+                          <button
+                            onClick={uploadFile}
+                            className=" bg-blue-700 h-10 p-2 hover:bg-blue-900 text-white rounded"
+                          >
+                            Upload
+                          </button>
+                        </div>
+                      </div> */}
                     </div>
                   </StudentElement>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                   <button
                     type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Save
                   </button>
@@ -337,6 +382,8 @@ export default function ProfileInfoEdit() {
           <div className="border-t border-gray-200" />
         </div>
       </div>
+
+      
     </div>
   );
 }

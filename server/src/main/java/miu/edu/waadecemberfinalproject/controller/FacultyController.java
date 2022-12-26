@@ -4,7 +4,7 @@ package miu.edu.waadecemberfinalproject.controller;
 import lombok.RequiredArgsConstructor;
 import miu.edu.waadecemberfinalproject.dto.FacultyDto;
 import miu.edu.waadecemberfinalproject.dto.FeedbackDto;
-import miu.edu.waadecemberfinalproject.serivce.FacultyService;
+import miu.edu.waadecemberfinalproject.service.FacultyService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

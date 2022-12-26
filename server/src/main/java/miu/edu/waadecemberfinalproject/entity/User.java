@@ -1,10 +1,8 @@
 package miu.edu.waadecemberfinalproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

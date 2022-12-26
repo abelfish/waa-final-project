@@ -10,12 +10,7 @@ function StudentsTable() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     const token = localStorage.getItem('token');
-    if (!user || !token) {
-      navigate('/login');
-    }
-    if (user.roles.includes('STUDENT')) {
-      navigate('/403');
-    }
+
     async function getData() {
       const response = await fetch('http://localhost:8080/students/', {
         method: 'GET',
@@ -35,6 +30,12 @@ function StudentsTable() {
           console.log(err);
           navigate('/login');
         });
+    }
+    if (!user || !token) {
+      navigate('/login');
+    }
+    if (user.roles.includes('STUDENT')) {
+      navigate('/403');
     }
 
     getData();

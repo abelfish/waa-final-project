@@ -48,6 +48,10 @@ export default function ProfileInfo() {
     getData();
   }, []);
 
+
+  const downloadResume = () => {
+  }
+
   return (
     <div className="overflow-hidden p-10 bg-white shadow sm:rounded-lg">
       <div className="py-5 md:flex gap-5">
@@ -88,32 +92,30 @@ export default function ProfileInfo() {
           </div>
           <StudentElement>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Attachments</dt>
+              <dt className="text-sm font-medium text-gray-500">Attachment</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <ul className="divide-y divide-gray-200 rounded-md border border-gray-200">
-                  {/* {user.attachments.map((attachment) => { */}
-                  {/* return ( */}
+                 
                   <li className="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
                     <div className="flex w-0 flex-1 items-center">
-                      {/* <PaperClipIcon */}
-                      {/* className="h-5 w-5 flex-shrink-0 text-gray-400" */}
-                      {/* aria-hidden="true" */}
-                      {/* /> */}
+                      <PaperClipIcon 
+                     className="h-5 w-5 flex-shrink-0 text-gray-400"
+                     aria-hidden="true" 
+                     />
                       <span className="ml-2 w-0 flex-1 truncate">
-                        {/* ?  {attachment.name} */}
+                        {user.resumePath}
                       </span>
                     </div>
                     <div className="ml-4 flex-shrink-0">
-                      <a
-                        // href={attachment.url}
+                      <button
+                       onClick={downloadResume}                       
                         className="font-medium text-indigo-600 hover:text-indigo-500"
                       >
                         Download
-                      </a>
+                      </button>
                     </div>
                   </li>
-                  {/* ); */}
-                  {/* ? })} */}
+              
                 </ul>
               </dd>
             </div>

@@ -2,8 +2,7 @@ package miu.edu.waadecemberfinalproject.controller;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.waadecemberfinalproject.dto.JobAdvertisementDto;
-import miu.edu.waadecemberfinalproject.serivce.JobAdvertisementService;
-import org.springframework.beans.factory.annotation.Autowired;
+import miu.edu.waadecemberfinalproject.service.JobAdvertisementService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -41,12 +40,13 @@ public class JobAdvertisementController {
         return jobAdvertisementService.findByAddress(address);
     }
 
-
+    @RolesAllowed("student")
     @PostMapping("/add/{id}")
     public JobAdvertisementDto addJob(@PathVariable Integer id, @RequestBody JobAdvertisementDto jobAdvertisement) {
-        return jobAdvertisementService.save(id,jobAdvertisement);
+        return jobAdvertisementService.save(id, jobAdvertisement);
     }
 
+    @RolesAllowed("student")
     @PutMapping("/update/{id}")
     public JobAdvertisementDto update(@PathVariable Integer id, @RequestBody JobAdvertisementDto jobAdvertisement) {
         return jobAdvertisementService.update(id, jobAdvertisement);

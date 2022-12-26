@@ -15,5 +15,7 @@ public class StudentDto extends UserDto {
     private List<FeedbackDto> feedbacks;
     private List<JobAdvertisementDto> jobAdvertisements;
 
+    private String resumePath;
+
 
 }

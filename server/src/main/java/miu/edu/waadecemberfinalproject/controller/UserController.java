@@ -1,11 +1,9 @@
 package miu.edu.waadecemberfinalproject.controller;
 
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import miu.edu.waadecemberfinalproject.dto.UserDto;
-import miu.edu.waadecemberfinalproject.serivce.UserService;
-import org.springframework.security.core.parameters.P;
+import miu.edu.waadecemberfinalproject.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;

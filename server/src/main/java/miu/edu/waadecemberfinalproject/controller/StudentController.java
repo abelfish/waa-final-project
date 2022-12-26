@@ -4,8 +4,7 @@ package miu.edu.waadecemberfinalproject.controller;
 import lombok.RequiredArgsConstructor;
 import miu.edu.waadecemberfinalproject.dto.FeedbackDto;
 import miu.edu.waadecemberfinalproject.dto.StudentDto;
-import miu.edu.waadecemberfinalproject.entity.Feedback;
-import miu.edu.waadecemberfinalproject.serivce.StudentService;
+import miu.edu.waadecemberfinalproject.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;

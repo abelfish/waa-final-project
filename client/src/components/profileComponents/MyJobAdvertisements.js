@@ -9,7 +9,7 @@ function AdsPanel() {
   const userId = localStorage.getItem('userId');
   const ads = [];
   function AddElement(props) {
-    if (localStorage.getItem('user').includes('STUDENT')) {
+    if (!localStorage.getItem('user').includes('FACULTY')) {
       return props.children;
     } else {
       return null;
@@ -46,7 +46,7 @@ function AdsPanel() {
       const user = localStorage.getItem('user');
       const roles = JSON.parse(user).roles;
       console.log(roles);
-      if (!roles.includes('STUDENT')) {
+      if (roles.includes('FACULTY')) {
         return (
           <div className="flex flex-col items-center justify-center w-full h-full">
             <p className="text-2xl font-semibold text-gray-600">

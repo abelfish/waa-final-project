@@ -1,5 +1,6 @@
 package miu.edu.waadecemberfinalproject.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,9 @@ public class UserDto {
     private String password;
 
     private String username;
+    @JsonIgnore
     private boolean active;
 
     private AddressDto address;
+    private String resumePath;
 }

@@ -25,7 +25,7 @@ function Unauthorized() {
             </h6>
 
             <p className="mb-8 text-center text-gray-500 md:text-lg">
-              The page you’re looking for doesn’t exist.
+           
             </p>
 
             <Link

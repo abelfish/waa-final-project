@@ -28,16 +28,17 @@ values ('Las Vegas', 'NV', '123 Main st', 89814, 6);
 
 insert into faculty(id)
 values (2);
-insert into student(id)
-values (4);
+insert into student(id,gpa)
+values (4,2.0);
 
 
-insert into student(id, gpa)
-values (3, 3.5);
-insert into student(id, gpa)
-values (5, 2.45);
-insert into student(id, gpa)
-values (6, 3.78);
+insert into student(id, gpa,major,resume_path)
+values (3, 3.5, 'Computer Science', 'resumePath');
+
+insert into student(id, gpa,major,resume_path)
+values (5, 2.45,'Math', 'resumePath');
+insert into student(id, gpa,major)
+values (6, 3.78,'Biology');
 
 insert into feedback(comment, student_id, faculty_id)
 values ('bad comment', 3, 2);
@@ -59,5 +60,5 @@ values ('Because of our commitment, ClarisHealth has grown into an industry lead
 
 insert into job_advertisement(description, company_name, job_title, address, salary, closing_date, student_id, tags)
 values ('The Front Office Application Development department within HIMCO is responsible for development and maintenance of all business related applications and the related data environments supporting the business. ',
-        'Amazon', 'UI/UX Designer', 'San Josse', 103000,
+        'Amazon', 'UI/UX Designer', 'San Jose', 103000,
         '2023-01-01', 5, 'figma tailwind react javascript');
